@@ -1,0 +1,36 @@
+{
+  "name": "@clonedspaces/viewer-core-plugin-starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Starter project for curated Cloned Spaces viewer plugins.",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build && tsc --emitDeclarationOnly",
+    "build:types": "tsc --emitDeclarationOnly",
+    "dev": "vite build --watch --mode development",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "@types/three": "0.185.0",
+    "three": "0.185.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.0",
+    "@clonedspaces/viewer-core-plugin": "file:./vendor/clonedspaces-viewer-core-plugin-1.0.0.tgz"
+  },
+  "peerDependencies": {
+    "three": "^0.185.0",
+    "@clonedspaces/viewer-core-plugin": "^1.0.0"
+  }
+}

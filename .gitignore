@@ -1,0 +1,32 @@
+# Dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Local environment files (keep shareable examples)
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+
+# Logs and tool caches
+*.log
+.pnpm-store/
+.vite/
+.cache/
+coverage/
+.sonar/
+.scannerwork/
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+
+# Privately distributed plugin API packages
+vendor/*.tgz

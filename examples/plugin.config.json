@@ -1,0 +1,11 @@
+{
+  "name": "ExamplePlugin",
+  "author": "Your organisation",
+  "version": "0.1.0",
+  "type": "stage-example",
+  "source": "http://127.0.0.1:4174/index.js",
+  "settings": {
+    "size": 1,
+    "color": "#00aaff"
+  }
+}
