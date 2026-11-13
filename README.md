@@ -1,6 +1,6 @@
 # @clonedspaces/viewer-core-plugin-starter
 
-A TypeScript starter for Cloned Spaces viewer extensions. The example adds a configurable cube to an existing stage scene and opens a dialog when the cube is double-clicked. It uses the curated plugin API, with no dependency on viewer-core internals.
+A TypeScript starter for Cloned Spaces viewer extensions. One ExamplePlugin adds a configurable cube and contains five small examples: moving a camera, adding toolbar groups and buttons, adding GeoJSON, querying a GIS layer, and bridging an embedding site through postMessage. It uses the curated plugin API, with no dependency on viewer-core internals.
 
 ## Requirements
 
@@ -81,6 +81,16 @@ For example, a host that already publishes browser bundles at these URLs can con
 
 These URLs are examples, not files supplied by this starter. Use your host's actual browser-ready bundles and ensure the host itself uses the same modules. The plugin API package's raw TypeScript build is not a self-contained browser bundle.
 
+## Sample code
+
+The API examples are methods in the single [ExamplePlugin](src/ExamplePlugin.ts). Its toolbar buttons let you try them without moving the camera or querying GIS on startup. See the [sample guide](examples/README.md).
+
+### Iframe messaging bridge
+
+The opt-in [postMessage developer guide](examples/postmessage.md) connects an embedding site's UI to two validated cube commands and plain-data responses/events. A [parent-page example](examples/iframe-parent.html) shows both directions. Configure an exact trusted `settings.parentOrigin` to enable it.
+
+**The workspace and any viewer components must never be exposed to the embedding site.** Keep all viewer access inside the plugin and send only explicitly approved data. Never expose a generic object/method proxy or serialize viewer objects. The developer guide explains command/reply IDs, events, protocol payloads, setup, origin checks, timeouts, extension rules, and troubleshooting.
+
 ## Customise the example
 
 - Rename the package in package.json and ExamplePlugin in [src/ExamplePlugin.ts](src/ExamplePlugin.ts) and [src/index.ts](src/index.ts).
@@ -107,7 +117,7 @@ init() runs after the host creates the plugin with its curated workspace and con
 
 update() satisfies the base contract and is intentionally empty. It is not automatically called on every animation frame. If needed, register a callback with workspace.stage.registerUpdate() and unregister it during cleanup. Use a plugin-specific callback ID; callback timing follows the stage scheduler.
 
-destroy() removes the cube, unregisters its picking callbacks, and disposes its geometry and material. The host must invoke it before discarding or replacing the instance. When extending the example, also unsubscribe event callbacks using the same callback reference, remove popups and map layers/sources you created, and dispose plugin-owned resources. Remove map layers before their sources.
+destroy() removes the iframe message listener, removes the toolbar group and buttons, removes any example GeoJSON layer and source, and disposes the cube geometry and material. The host must invoke it before discarding or replacing the instance. When extending the example, also unsubscribe event callbacks using the same callback reference, remove popups and map layers/sources you created, and dispose plugin-owned resources. Remove map layers before their sources.
 
 The private plugin API package supplies documented TypeScript declarations for the workspace, interface, time, events, stage, map, and GIS contracts. Use editor hover and navigation to inspect them; a guide is included in the package README.
 
@@ -116,8 +126,12 @@ The private plugin API package supplies documented TypeScript declarations for t
 | File | Purpose |
 | --- | --- |
 | src/ExamplePlugin.ts | Plugin lifecycle and stage object example. |
+| src/messageBridge.ts | Validated iframe commands and plain-data replies/events. |
 | src/settings.ts | Typed settings and input validation. |
 | src/index.ts | Named and default exports consumed by the host. |
+| examples/postmessage.md | Iframe bridge developer guide and protocol reference. |
+| examples/iframe-parent.html | Customer-site UI using the command/reply protocol. |
+| tests/messageBridge.test.mjs | Bridge validation and lifecycle checks. |
 | examples/plugin.config.json | Configuration to add to a viewer host. |
 | vite.config.ts | Browser ES module build and local preview server. |
 | tsconfig.json | Strict type checking and declaration output. |

@@ -1,5 +1,9 @@
+import { readParentOrigin } from './messageBridge'
+
 /** Options supplied through PluginConfig.settings. Distances use scene units. */
 export interface ExamplePluginSettings {
+    /** Trusted embedding site's exact origin. Omit to disable iframe messaging. */
+    parentOrigin?: string
     sceneId?: string
     size?: number
     /** Six hexadecimal digits, for example '#00aaff'. */
@@ -24,5 +28,5 @@ export function readSettings(settings: Record<string, unknown>): ExamplePluginSe
         || !position.every(value => typeof value === 'number' && Number.isFinite(value)))) {
         throw new Error('settings.position must contain three finite numbers')
     }
-    return { sceneId, size, color, position: position as ExamplePluginSettings['position'] }
+    return { parentOrigin: readParentOrigin(settings.parentOrigin), sceneId, size, color, position: position as ExamplePluginSettings['position'] }
 }
