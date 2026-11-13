@@ -131,7 +131,6 @@ The private plugin API package supplies documented TypeScript declarations for t
 | src/index.ts | Named and default exports consumed by the host. |
 | examples/postmessage.md | Iframe bridge developer guide and protocol reference. |
 | examples/iframe-parent.html | Customer-site UI using the command/reply protocol. |
-| tests/messageBridge.test.mjs | Bridge validation and lifecycle checks. |
 | examples/plugin.config.json | Configuration to add to a viewer host. |
 | vite.config.ts | Browser ES module build and local preview server. |
 | tsconfig.json | Strict type checking and declaration output. |

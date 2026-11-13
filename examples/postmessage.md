@@ -171,7 +171,7 @@ An allowed origin identifies a website, not a signed-in user or their project pe
 2. Add the command to `BridgeCommand` and implement runtime validation in `readCommand()`. Reject unknown and extra fields. Bound strings, arrays, query ranges, and other inputs before calling viewer APIs.
 3. Add a narrow callback to `createMessageBridge()` and implement it inside `ExamplePlugin`. Keep every workspace/component reference inside the plugin. Do not pass the workspace to the bridge.
 4. Construct the reply explicitly from approved values. Introduce a documented result type if `state` is no longer suitable. Never spread a viewer result or forward a raw error.
-5. Extend the parent receiver, pending-request handling, protocol reference, and tests together. Add bounded concurrency and rate limits before exposing costly actions.
+5. Extend the parent receiver, pending-request handling, and protocol reference together. Add bounded concurrency and rate limits before exposing costly actions.
 6. Subscribe to internal events only when needed; map them to approved event fields and unsubscribe during cleanup.
 
 For asynchronous operations, define when a reply is sent: after acceptance or after completion. Catch failures and return documented, sanitized error codes only to validated callers. Do not mistake a command being received for its work having completed.
@@ -193,15 +193,12 @@ If you introduce explicit success/error replies, document the new envelope and u
 
 Use the browser's parent and iframe console contexts to inspect the respective listeners. Log only protocol metadata needed for diagnosis; do not dump the workspace or private viewer state.
 
-## Verify changes
+## Check your integration
 
 From the repository root:
 
 ```sh
 npm run build
-node --test tests/messageBridge.test.mjs
 ```
-
-The focused tests cover origin configuration, rejected origins/windows/payloads, approved response fields, command/reply correlation, standalone behavior, and listener cleanup. They execute the bridge with a simulated window; they do not replace a browser integration check.
 
 For a live check, load the customer page and confirm initialization, Show/Hide state replies, and visibility events. Send an extra field or unsupported command and confirm that no action or reply occurs. Try a different origin or iframe sender and confirm rejection. Finally unload the plugin and verify it no longer responds. Exercise iframe reload and UI teardown when you add session management to your own application.
